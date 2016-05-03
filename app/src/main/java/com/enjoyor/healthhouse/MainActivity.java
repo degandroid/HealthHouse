@@ -21,6 +21,9 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         setImmerseLayout(findViewById(R.id.common_back));
         //我做了修改
+
+
+
 //        User u = new User();
 //        u.setId(1);
 //        u.setName("张鸿洋");
