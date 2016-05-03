@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.jkb.enjoyor.healthhouse.MainActivity">
+    <!--对于沉浸式开发，一般需要状态栏的颜色与导航栏的颜色一致就可以，所以我们在设置的
+    的时候只需要将xml页面第一个控件的属性中添加两个属性既可以 android:fitsSystemWindows="true"
+    android:clipToPadding="true"-->
+    <include
+        android:id="@+id/common_back"
+        layout="@layout/common_back"
+        android:clipToPadding="false"
+        android:fitsSystemWindows="true" />
+</FrameLayout>

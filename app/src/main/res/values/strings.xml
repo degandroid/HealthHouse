@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">HealthHouse</string>
+    <string name="action_settings">Settings</string>
+    <string name="dialog_error">出错啦</string>
+    <string name="error_network">网络错误，请重试</string>
+    <string name="dialog_close">关闭</string>
+    <string name="note_exit">再按一次后退键退出程序</string>
+</resources>
