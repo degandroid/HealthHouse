@@ -16,6 +16,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.MainTabActivity" android:screenOrientation="portrait"></activity>
         <!--注册自定义广播-->
         <receiver android:name=".receive.MyReceiver">
             <intent-filter>
