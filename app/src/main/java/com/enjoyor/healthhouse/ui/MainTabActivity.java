@@ -1,20 +1,17 @@
 package com.enjoyor.healthhouse.ui;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
-import android.widget.FrameLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.enjoyor.healthhouse.R;
-import com.enjoyor.healthhouse.adapter.FragmentTabAdapter;
 import com.enjoyor.healthhouse.fragments.MineFragment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -22,87 +19,136 @@ import butterknife.ButterKnife;
 /**
  * Created by Administrator on 2016/5/3.
  */
-public class MainTabActivity extends BaseActivity{
-
-    @Bind(R.id.tab_content)
-    FrameLayout tab_content;
-    @Bind(R.id.main_content_radio)
-    RadioGroup main_content_radio;
-    @Bind(R.id.main_tab1)
-    RadioButton main_tab1;
-    @Bind(R.id.main_tab2)
-    RadioButton main_tab2;
-    @Bind(R.id.main_tab3)
-    RadioButton main_tab3;
-    @Bind(R.id.main_tab4)
-    RadioButton main_tab4;
-    @Bind(R.id.main_tab5)
-    RadioButton main_tab5;
-
+public class MainTabActivity extends BaseActivity implements View.OnClickListener{
     private long preTime;
-    private List<Fragment> fragment_list = new ArrayList<>();
-    public static int CurrentFragment = 0;
+    @Bind(R.id.main_tab1)LinearLayout main_tab1;
+    @Bind(R.id.main_tab2)LinearLayout main_tab2;
+    @Bind(R.id.main_tab3)LinearLayout main_tab3;
+    @Bind(R.id.main_tab4)LinearLayout main_tab4;
+    @Bind(R.id.main_tab5)LinearLayout main_tab5;
 
+    @Bind(R.id.iv_tab1)ImageView iv_tab1;
+    @Bind(R.id.iv_tab2)ImageView iv_tab2;
+    @Bind(R.id.iv_tab3)ImageView iv_tab3;
+    @Bind(R.id.iv_tab4)ImageView iv_tab4;
+    @Bind(R.id.iv_tab5)ImageView iv_tab5;
+
+    @Bind(R.id.tv_tab1)TextView tv_tab1;
+    @Bind(R.id.tv_tab2)TextView tv_tab2;
+    @Bind(R.id.tv_tab3)TextView tv_tab3;
+    @Bind(R.id.tv_tab4)TextView tv_tab4;
+    @Bind(R.id.tv_tab5)TextView tv_tab5;
+
+    @Bind(R.id.ll_content)LinearLayout ll_content;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_tab);
         ButterKnife.bind(this);
-//        setImmerseLayout(findViewById(R.id.common_back));
-//        User u = new User();
-//        u.setId(1);
-//        u.setName("张鸿洋");
-//
-//        new UserDao(this).add(u);
-//
-//        Log.i("zxw", new UserDao(this).get().getName());
-        initAdapter();
-        initDrawable();
+
+        //设置第一页为默认的fragment
+        initDefault();
+        //初始化tabbar图标
+        initImageTab();
+        //初始化tabbar文字
+        initTextTab();
+        //设置首页为tabbar的默认
+
+
+        initLayoutTab();
+        selectTab(1);
+    }
+    private void selectTab(int key) {
+        initImageTab();
+        initTextTab();
+        switch (key){
+            case 1:
+                iv_tab1.setBackgroundResource(R.mipmap.ic_launcher);
+                tv_tab1.setTextColor(getResources().getColor(R.color.colorAccent));
+                break;
+
+            case 2:
+                iv_tab2.setBackgroundResource(R.mipmap.ic_launcher);
+                tv_tab2.setTextColor(getResources().getColor(R.color.colorAccent));
+                break;
+
+            case 3:
+                iv_tab3.setBackgroundResource(R.mipmap.text);
+                tv_tab3.setTextColor(getResources().getColor(R.color.colorAccent));
+                break;
+
+            case 4:
+                iv_tab4.setBackgroundResource(R.mipmap.ic_launcher);
+                tv_tab4.setTextColor(getResources().getColor(R.color.colorAccent));
+                break;
+
+            case 5:
+                iv_tab5.setBackgroundResource(R.mipmap.ic_launcher);
+                tv_tab5.setTextColor(getResources().getColor(R.color.colorAccent));
+                break;
+        }
+    }
+    private void initTextTab() {
+        tv_tab1.setTextColor(getResources().getColor(R.color.colorPrimary));
+        tv_tab2.setTextColor(getResources().getColor(R.color.colorPrimary));
+        tv_tab3.setTextColor(getResources().getColor(R.color.colorPrimary));
+        tv_tab4.setTextColor(getResources().getColor(R.color.colorPrimary));
+        tv_tab5.setTextColor(getResources().getColor(R.color.colorPrimary));
+    }
+    private void initImageTab() {
+        iv_tab1.setBackgroundResource(R.mipmap.ic_launcher);
+        iv_tab2.setBackgroundResource(R.mipmap.ic_launcher);
+        iv_tab3.setBackgroundResource(R.mipmap.text);
+        iv_tab4.setBackgroundResource(R.mipmap.ic_launcher);
+        iv_tab5.setBackgroundResource(R.mipmap.ic_launcher);
+    }
+    private void initDefault() {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.ll_content,MineFragment.getInstance(1));
+        transaction.commit();
+    }
+    private void initLayoutTab() {
+        main_tab1.setOnClickListener(this);
+        main_tab2.setOnClickListener(this);
+        main_tab3.setOnClickListener(this);
+        main_tab4.setOnClickListener(this);
+        main_tab5.setOnClickListener(this);
     }
 
-    private void initAdapter() {
-        initFragment();
-        FragmentTabAdapter tabAdapter = new FragmentTabAdapter(this, fragment_list, R.id.tab_content, main_content_radio);
-        tabAdapter.setOnRgsExtraCheckedChangedListener(new FragmentTabAdapter.OnRgsExtraCheckedChangedListener() {
-            @Override
-            public void OnRgsExtraCheckedChanged(RadioGroup radioGroup, int checkedId, int index) {
-                CurrentFragment = index;
-            }
-        });
-    }
+    @Override
+    public void onClick(View v) {
+        int key = v.getId();
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
 
-    private void initFragment() {
-        fragment_list.clear();
-        fragment_list.add(MineFragment.getInstance(1));
-        fragment_list.add(MineFragment.getInstance(2));
-        fragment_list.add(MineFragment.getInstance(3));
-        fragment_list.add(MineFragment.getInstance(4));
-        fragment_list.add(MineFragment.getInstance(5));
-    }
+        switch (key){
+            case R.id.main_tab1:
+                selectTab(1);
+                transaction.replace(R.id.ll_content,MineFragment.getInstance(1));
+                break;
 
+            case R.id.main_tab2:
+                selectTab(2);
+                transaction.replace(R.id.ll_content,MineFragment.getInstance(2));
+                break;
 
-    private void initDrawable() {
-        int tabIconHeight = getResources().getDimensionPixelOffset(R.dimen.tab_icon_height);
-        Drawable topDrawable1 = getResources().getDrawable(R.mipmap.ic_launcher);
-        topDrawable1.setBounds(0, 0, tabIconHeight, tabIconHeight);
-        main_tab1.setCompoundDrawables(null, topDrawable1, null, null);
+            case R.id.main_tab3:
+                selectTab(3);
+                transaction.replace(R.id.ll_content,MineFragment.getInstance(3));
+                break;
 
-        Drawable topDrawable2 = getResources().getDrawable(R.mipmap.ic_launcher);
-        topDrawable2.setBounds(0, 0, tabIconHeight, tabIconHeight);
-        main_tab2.setCompoundDrawables(null, topDrawable2, null, null);
+            case R.id.main_tab4:
+                selectTab(4);
+                transaction.replace(R.id.ll_content,MineFragment.getInstance(4));
+                break;
 
-        Drawable topDrawable3 = getResources().getDrawable(R.drawable.white_null);
-        topDrawable3.setBounds(0, 0, tabIconHeight, tabIconHeight);
-        main_tab3.setCompoundDrawables(null, topDrawable3, null, null);
-//        main_tab3.setVisibility(View.INVISIBLE);
-
-        Drawable topDrawable4 = getResources().getDrawable(R.mipmap.ic_launcher);
-        topDrawable4.setBounds(0, 0, tabIconHeight, tabIconHeight);
-        main_tab4.setCompoundDrawables(null, topDrawable4, null, null);
-
-        Drawable topDrawable5 = getResources().getDrawable(R.mipmap.ic_launcher);
-        topDrawable5.setBounds(0, 0, tabIconHeight, tabIconHeight);
-        main_tab5.setCompoundDrawables(null, topDrawable5, null, null);
+            case R.id.main_tab5:
+                selectTab(5);
+                transaction.replace(R.id.ll_content, MineFragment.getInstance(5));
+                break;
+        }
+        transaction.commit();
     }
 
 
