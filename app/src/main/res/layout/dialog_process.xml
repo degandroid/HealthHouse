@@ -23,7 +23,7 @@
             android:layout_height="30dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            wheel:matProg_barColor="@color/white"
+            wheel:matProg_barColor="@color/colorWhite"
             wheel:matProg_progressIndeterminate="true" />
 
         <TextView
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dip"
             android:text="请稍后..."
-            android:textColor="@color/white"
+            android:textColor="@color/colorWhite"
             android:textSize="12.0dip" />
     </LinearLayout>
 

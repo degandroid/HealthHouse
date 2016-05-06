@@ -2,7 +2,6 @@ package com.enjoyor.healthhouse.ui;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.widget.FrameLayout;
@@ -37,11 +36,11 @@ public class MainTabActivity extends BaseActivity{
     RadioButton main_tab3;
     @Bind(R.id.main_tab4)
     RadioButton main_tab4;
+    @Bind(R.id.main_tab5)
+    RadioButton main_tab5;
 
     private long preTime;
-    private static final String TAG = "MainActivity";
     private List<Fragment> fragment_list = new ArrayList<>();
-    private Handler tab_handler;
     public static int CurrentFragment = 0;
 
     @Override
@@ -49,8 +48,14 @@ public class MainTabActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_tab);
         ButterKnife.bind(this);
-
 //        setImmerseLayout(findViewById(R.id.common_back));
+//        User u = new User();
+//        u.setId(1);
+//        u.setName("张鸿洋");
+//
+//        new UserDao(this).add(u);
+//
+//        Log.i("zxw", new UserDao(this).get().getName());
         initAdapter();
         initDrawable();
     }
@@ -72,6 +77,7 @@ public class MainTabActivity extends BaseActivity{
         fragment_list.add(MineFragment.getInstance(2));
         fragment_list.add(MineFragment.getInstance(3));
         fragment_list.add(MineFragment.getInstance(4));
+        fragment_list.add(MineFragment.getInstance(5));
     }
 
 
@@ -85,13 +91,18 @@ public class MainTabActivity extends BaseActivity{
         topDrawable2.setBounds(0, 0, tabIconHeight, tabIconHeight);
         main_tab2.setCompoundDrawables(null, topDrawable2, null, null);
 
-        Drawable topDrawable3 = getResources().getDrawable(R.mipmap.ic_launcher);
+        Drawable topDrawable3 = getResources().getDrawable(R.drawable.white_null);
         topDrawable3.setBounds(0, 0, tabIconHeight, tabIconHeight);
         main_tab3.setCompoundDrawables(null, topDrawable3, null, null);
+//        main_tab3.setVisibility(View.INVISIBLE);
 
         Drawable topDrawable4 = getResources().getDrawable(R.mipmap.ic_launcher);
         topDrawable4.setBounds(0, 0, tabIconHeight, tabIconHeight);
         main_tab4.setCompoundDrawables(null, topDrawable4, null, null);
+
+        Drawable topDrawable5 = getResources().getDrawable(R.mipmap.ic_launcher);
+        topDrawable5.setBounds(0, 0, tabIconHeight, tabIconHeight);
+        main_tab5.setCompoundDrawables(null, topDrawable5, null, null);
     }
 
 

@@ -29,6 +29,7 @@ import com.enjoyor.healthhouse.utils.ToastUtil;
  * Created by YuanYuan on 2016/4/25.
  */
 public class BaseActivity extends AppCompatActivity {
+    private View rootView;
     //进度框
     protected Dialog mDialog;
     // 屏幕方向
