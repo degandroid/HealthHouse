@@ -9,7 +9,7 @@
 
     <dimen name="textsize_largetittle">18sp</dimen>
     <dimen name="textsize_smalltittle">15sp</dimen>
-    <dimen name="textsize_body">15sp</dimen>
+    <dimen name="textsize_body">12sp</dimen>
 
     <dimen name="layout_distance">15dp</dimen>
 

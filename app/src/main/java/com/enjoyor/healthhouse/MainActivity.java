@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.enjoyor.healthhouse.ui.BaseActivity;
-import com.enjoyor.healthhouse.ui.MainTabActivity;
+import com.enjoyor.healthhouse.ui.LoginActivity;
 
 public class MainActivity extends BaseActivity {
 
@@ -22,7 +22,7 @@ public class MainActivity extends BaseActivity {
     class splashhandler implements Runnable {
 
         public void run() {
-            startActivity(new Intent(getApplication(), MainTabActivity.class));
+            startActivity(new Intent(getApplication(), LoginActivity.class));
             MainActivity.this.finish();
         }
     }

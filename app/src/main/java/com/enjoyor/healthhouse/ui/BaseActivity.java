@@ -262,4 +262,22 @@ public class BaseActivity extends AppCompatActivity {
     public void setTitleBar(TextView view, int id) {
         view.setText(id);
     }
+
+    public void dialog(Context context,String body,String left_info,String right_info,View.OnClickListener left,View.OnClickListener right){
+        dialog = new AlertDialog.Builder(context).create();
+        dialog.show();
+        dialog.getWindow().setContentView(R.layout.dialog_custom);
+
+        TextView tv_body = (TextView) dialog.findViewById(R.id.tv_body);
+        tv_body.setText(body);
+        TextView tv_left = (TextView) dialog.findViewById(R.id.tv_left);
+        tv_left.setOnClickListener(left);
+        tv_left.setText(left_info);
+        TextView tv_right = (TextView) dialog.findViewById(R.id.tv_right);
+        tv_right.setOnClickListener(right);
+        tv_right.setText(right_info);
+    }
+    public void disappear(){
+        dialog.cancel();
+    }
 }
