@@ -105,7 +105,6 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
     }
 
     public void sendingAutoCode() {
-        //        btn_get_auto_code.setClickable(false);
         tv_code.setEnabled(false);
         tv_code.setText("获取验证码");
         //倒记时
