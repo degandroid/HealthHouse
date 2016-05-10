@@ -15,18 +15,20 @@ import android.widget.Toast;
 
 import com.enjoyor.healthhouse.R;
 import com.enjoyor.healthhouse.custom.Watcher;
+import com.enjoyor.healthhouse.net.ApiMessage;
+import com.enjoyor.healthhouse.net.AsyncHttpUtil;
+import com.enjoyor.healthhouse.url.UrlInterface;
 import com.enjoyor.healthhouse.utils.StringUtils;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
-import org.json.JSONObject;
+import org.apache.http.Header;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import cn.smssdk.EventHandler;
-import cn.smssdk.SMSSDK;
-import cn.smssdk.utils.SMSLog;
 
 /**
  * Created by YuanYuan on 2016/5/9.
@@ -68,11 +70,12 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.regist_layout);
+        setImmerseLayout(findViewById(R.id.navigation));
         ButterKnife.bind(this);
         initView();
         initData();
         initCode();
-        initSDK();
+//        initSDK();
         initEvent();
     }
 
@@ -92,6 +95,9 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     private void initEvent() {
         navigation_back.setOnClickListener(this);
         regist_yanzheng.setOnClickListener(this);
+        regist.setOnClickListener(this);
+        regist_phone_delete.setOnClickListener(this);
+        regist_pwd_delete.setOnClickListener(this);
     }
 
     private void initData() {
@@ -115,13 +121,72 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                     registphonenumber.requestFocus();
                 } else {
                     sendMsg();
-                    tellphone = registphonenumber.getText().toString();
-                    SMSSDK.getVerificationCode("86", tellphone);
+//                    tellphone = registphonenumber.getText().toString();
+//                    SMSSDK.getVerificationCode("86", tellphone);
+                    sendMsgtoPhone();
                 }
                 break;
             case R.id.regist:
+                regist();
+                break;
+            case R.id.regist_phone_delete:
+                registphonenumber.setText("");
+                break;
+            case R.id.regist_pwd_delete:
+                regist_password.setText("");
                 break;
         }
+    }
+
+    //发送手机验证码的方法
+    private void sendMsgtoPhone() {
+        RequestParams params = new RequestParams();
+        params.add("service", "mob");
+        params.add("phone", String.valueOf(registphonenumber.getText().toString()));
+        AsyncHttpUtil.post(UrlInterface.SendMsg_URL, params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                String json = new String(bytes);
+                ApiMessage apimessage = ApiMessage.FromJson(json);
+                if (apimessage.Code == 1001) {
+                    Toast.makeText(RegistActivity.this, "验证码发送成功", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(RegistActivity.this, "数据解析错误", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+            }
+        });
+    }
+
+
+    //用户注册方法
+    private void regist() {
+        RequestParams params = new RequestParams();
+        params.add("origin", String.valueOf("AndroidApp"));
+        params.add("userLoginName", String.valueOf(registphonenumber.getText().toString()));
+        params.add("userLoginPwd", String.valueOf(regist_password.getText().toString()));
+        params.add("userLoginType", String.valueOf(Integer.valueOf(2)));
+        params.add("mcode", String.valueOf(regist_tv_yanzheng.getText().toString()));
+        AsyncHttpUtil.post(UrlInterface.Regist_URL, params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                String json = new String(bytes);
+                ApiMessage apiMessage = ApiMessage.FromJson(json);
+                if (apiMessage.Code == 1001) {
+                    Toast.makeText(RegistActivity.this, "注册成功", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(RegistActivity.this, "" + apiMessage.Msg, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+
+            }
+        });
     }
 
     private void sendMsg() {
@@ -152,21 +217,20 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     /**
      * 获取验证码的方法
      */
-    private void initSDK() {
-        SMSSDK.initSDK(this, APPKEY, APPSECRET, true);
-        EventHandler eh = new EventHandler() {
-            @Override
-            public void afterEvent(int event, int result, Object data) {
-                Message msg = new Message();
-                msg.arg1 = event;
-                msg.arg2 = result;
-                msg.obj = data;
-                mHandler.sendMessage(msg);
-            }
-        };
-        SMSSDK.registerEventHandler(eh);
-    }
-
+//    private void initSDK() {
+//        SMSSDK.initSDK(this, APPKEY, APPSECRET, true);
+//        EventHandler eh = new EventHandler() {
+//            @Override
+//            public void afterEvent(int event, int result, Object data) {
+//                Message msg = new Message();
+//                msg.arg1 = event;
+//                msg.arg2 = result;
+//                msg.obj = data;
+//                mHandler.sendMessage(msg);
+//            }
+//        };
+//        SMSSDK.registerEventHandler(eh);
+//    }
     private void reSet() {
         if (tellphone != null && tellphone.equals(registphonenumber.getText().toString().trim())) {
             regist_yanzheng.setText("重新获取");
@@ -177,40 +241,40 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
         count = 30;
     }
 
-    Handler mHandler = new Handler() {
-        public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
-            super.handleMessage(msg);
-            int event = msg.arg1;
-            int result = msg.arg2;
-            Object data = msg.obj;
-            Log.e("event", "event=" + event);
-            if (result == SMSSDK.RESULT_COMPLETE) {
-                System.out.println("--------result" + event);
-                //短信注册成功后，返回MainActivity,然后提示新好友
-                if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {//提交验证码成功
-                    Toast.makeText(getApplicationContext(), "提交验证码成功", Toast.LENGTH_SHORT).show();
-
-                } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
-                    //已经验证
-                    Toast.makeText(getApplicationContext(), "验证码已经发送", Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                int status = 0;
-                try {
-                    ((Throwable) data).printStackTrace();
-                    Throwable throwable = (Throwable) data;
-                    JSONObject object = new JSONObject(throwable.getMessage());
-                    String des = object.optString("detail");
-                    status = object.optInt("status");
-                    if (!TextUtils.isEmpty(des)) {
-                        Toast.makeText(RegistActivity.this, des, Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                } catch (Exception e) {
-                    SMSLog.getInstance().w(e);
-                }
-            }
-        }
-    };
+//    Handler mHandler = new Handler() {
+//        public void handleMessage(Message msg) {
+//            // TODO Auto-generated method stub
+//            super.handleMessage(msg);
+//            int event = msg.arg1;
+//            int result = msg.arg2;
+//            Object data = msg.obj;
+//            Log.e("event", "event=" + event);
+//            if (result == SMSSDK.RESULT_COMPLETE) {
+//                System.out.println("--------result" + event);
+//                //短信注册成功后，返回MainActivity,然后提示新好友
+//                if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {//提交验证码成功
+//                    Toast.makeText(getApplicationContext(), "提交验证码成功", Toast.LENGTH_SHORT).show();
+//
+//                } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
+//                    //已经验证
+//                    Toast.makeText(getApplicationContext(), "验证码已经发送", Toast.LENGTH_SHORT).show();
+//                }
+//            } else {
+//                int status = 0;
+//                try {
+//                    ((Throwable) data).printStackTrace();
+//                    Throwable throwable = (Throwable) data;
+//                    JSONObject object = new JSONObject(throwable.getMessage());
+//                    String des = object.optString("detail");
+//                    status = object.optInt("status");
+//                    if (!TextUtils.isEmpty(des)) {
+//                        Toast.makeText(RegistActivity.this, des, Toast.LENGTH_SHORT).show();
+//                        return;
+//                    }
+//                } catch (Exception e) {
+//                    SMSLog.getInstance().w(e);
+//                }
+//            }
+//        }
+//    };
 }

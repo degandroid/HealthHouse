@@ -1,6 +1,7 @@
 package com.enjoyor.healthhouse.custom;
 
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
@@ -25,10 +26,11 @@ public class Watcher implements TextWatcher {
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (s != null) {
-            img.setVisibility(View.VISIBLE);
-        } else
+        if (TextUtils.isEmpty(editText.getText().toString())) {
             img.setVisibility(View.GONE);
+        } else
+            img.setVisibility(View.VISIBLE);
+
     }
 
     @Override
