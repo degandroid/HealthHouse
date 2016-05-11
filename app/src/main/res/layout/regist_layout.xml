@@ -6,6 +6,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorBackgroud"
         android:orientation="vertical">
 
         <include layout="@layout/navigationbar_layout"></include>
@@ -44,7 +45,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:padding="20sp"
+                    android:paddingBottom="15sp"
+                    android:paddingRight="15sp"
+                    android:paddingTop="20sp"
                     android:src="@mipmap/bl_icon_phone" />
 
                 <EditText
@@ -80,15 +83,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
             android:layout_marginLeft="@dimen/layout_distance"
             android:layout_marginRight="@dimen/layout_distance"
+            android:gravity="center_vertical"
             android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_gravity="center_vertical"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -96,16 +99,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:padding="20sp"
+                    android:paddingBottom="15sp"
+                    android:paddingRight="15sp"
+                    android:paddingTop="20sp"
                     android:src="@mipmap/bl_icon_lock" />
 
                 <EditText
                     android:id="@+id/regist_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/regist_key"
                     android:background="@null"
-                    android:layout_centerVertical="true"
                     android:hint="请输入密码"
                     android:singleLine="true"
                     android:textSize="@dimen/textsize_largetittle" />
@@ -144,8 +149,10 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="20sp"
                     android:layout_gravity="center_vertical"
+                    android:paddingBottom="15sp"
+                    android:paddingRight="15sp"
+                    android:paddingTop="20sp"
                     android:src="@mipmap/bl_icon_key" />
 
                 <EditText
@@ -222,8 +229,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15px"
-            android:button="@mipmap/bl_icon_agreement_yes" />
+            android:button="@drawable/checkbox_agreement" />
 
         <TextView
             android:layout_width="wrap_content"

@@ -1,5 +1,6 @@
 package com.enjoyor.healthhouse.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -61,10 +62,6 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     private String tellphone;
     private String pwd;
     private int count = 60;//30秒倒计时
-    //填写从短信SDK应用后台注册得到的APPKEY
-    private static String APPKEY = "12977e0645924";
-    //填写从短信SDK应用后台注册得到的APPSECRET
-    private static String APPSECRET = "5bc6ab98e28655d3e2b66fe95e257319";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,7 +72,6 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
         initView();
         initData();
         initCode();
-//        initSDK();
         initEvent();
     }
 
@@ -86,7 +82,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                 // TODO Auto-generated method stub
                 super.handleMessage(msg);
                 if (msg.what > 0) {
-                    regist_yanzheng.setText(msg.what + "秒");
+                    regist_yanzheng.setText("剩余"+msg.what + "秒");
                 }
             }
         };
@@ -121,8 +117,6 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                     registphonenumber.requestFocus();
                 } else {
                     sendMsg();
-//                    tellphone = registphonenumber.getText().toString();
-//                    SMSSDK.getVerificationCode("86", tellphone);
                     sendMsgtoPhone();
                 }
                 break;
@@ -164,29 +158,53 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
 
     //用户注册方法
     private void regist() {
-        RequestParams params = new RequestParams();
-        params.add("origin", String.valueOf("AndroidApp"));
-        params.add("userLoginName", String.valueOf(registphonenumber.getText().toString()));
-        params.add("userLoginPwd", String.valueOf(regist_password.getText().toString()));
-        params.add("userLoginType", String.valueOf(Integer.valueOf(2)));
-        params.add("mcode", String.valueOf(regist_tv_yanzheng.getText().toString()));
-        AsyncHttpUtil.post(UrlInterface.Regist_URL, params, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int i, Header[] headers, byte[] bytes) {
-                String json = new String(bytes);
-                ApiMessage apiMessage = ApiMessage.FromJson(json);
-                if (apiMessage.Code == 1001) {
-                    Toast.makeText(RegistActivity.this, "注册成功", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(RegistActivity.this, "" + apiMessage.Msg, Toast.LENGTH_LONG).show();
-                }
-            }
+        if (!TextUtils.isEmpty(registphonenumber.getText().toString()) && !TextUtils.isEmpty(regist_password.getText().toString())
+                && !TextUtils.isEmpty(regist_tv_yanzheng.getText().toString())) {
+            if (regist_choice.isChecked()) {
+                RequestParams params = new RequestParams();
+                params.add("origin", String.valueOf("AndroidApp"));
+                params.add("userLoginName", String.valueOf(registphonenumber.getText().toString()));
+                params.add("userLoginPwd", String.valueOf(regist_password.getText().toString()));
+                params.add("userLoginType", String.valueOf(Integer.valueOf(2)));
+                params.add("mcode", String.valueOf(regist_tv_yanzheng.getText().toString()));
+                AsyncHttpUtil.post(UrlInterface.Regist_URL, params, new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                        String json = new String(bytes);
+                        ApiMessage apiMessage = ApiMessage.FromJson(json);
+                        if (apiMessage.Code == 1001) {
+                            Toast.makeText(RegistActivity.this, "注册成功", Toast.LENGTH_LONG).show();
+                        } else {
+                            if (!TextUtils.isEmpty(registphonenumber.getText().toString()) && !TextUtils.isEmpty(regist_password.getText().toString()) && !TextUtils.isEmpty(regist_tv_yanzheng.getText().toString())) {
+                                dialog(RegistActivity.this, "该用户已注册，请直接登录", "取消", "登录", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        finish();
+                                    }
+                                }, new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent = new Intent(RegistActivity.this, LoginActivity.class);
+                                        startActivity(intent);
+                                    }
+                                });
+                            } else {
+                                Toast.makeText(RegistActivity.this, "请输入用户名或密码", Toast.LENGTH_LONG).show();
+                            }
 
-            @Override
-            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+//                            Toast.makeText(RegistActivity.this, "" + apiMessage.Msg, Toast.LENGTH_LONG).show();
+                        }
+                    }
 
-            }
-        });
+                    @Override
+                    public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+
+                    }
+                });
+            } else Toast.makeText(RegistActivity.this, "请同意芭乐健康软件许可协议", Toast.LENGTH_LONG).show();
+
+        } else Toast.makeText(RegistActivity.this, "用户名，密码或验证码不能为空", Toast.LENGTH_LONG).show();
+
     }
 
     private void sendMsg() {
@@ -214,23 +232,6 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
         timer.schedule(task, 1000, 1000);
     }
 
-    /**
-     * 获取验证码的方法
-     */
-//    private void initSDK() {
-//        SMSSDK.initSDK(this, APPKEY, APPSECRET, true);
-//        EventHandler eh = new EventHandler() {
-//            @Override
-//            public void afterEvent(int event, int result, Object data) {
-//                Message msg = new Message();
-//                msg.arg1 = event;
-//                msg.arg2 = result;
-//                msg.obj = data;
-//                mHandler.sendMessage(msg);
-//            }
-//        };
-//        SMSSDK.registerEventHandler(eh);
-//    }
     private void reSet() {
         if (tellphone != null && tellphone.equals(registphonenumber.getText().toString().trim())) {
             regist_yanzheng.setText("重新获取");
@@ -240,41 +241,4 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
         regist_yanzheng.setEnabled(true);
         count = 30;
     }
-
-//    Handler mHandler = new Handler() {
-//        public void handleMessage(Message msg) {
-//            // TODO Auto-generated method stub
-//            super.handleMessage(msg);
-//            int event = msg.arg1;
-//            int result = msg.arg2;
-//            Object data = msg.obj;
-//            Log.e("event", "event=" + event);
-//            if (result == SMSSDK.RESULT_COMPLETE) {
-//                System.out.println("--------result" + event);
-//                //短信注册成功后，返回MainActivity,然后提示新好友
-//                if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {//提交验证码成功
-//                    Toast.makeText(getApplicationContext(), "提交验证码成功", Toast.LENGTH_SHORT).show();
-//
-//                } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
-//                    //已经验证
-//                    Toast.makeText(getApplicationContext(), "验证码已经发送", Toast.LENGTH_SHORT).show();
-//                }
-//            } else {
-//                int status = 0;
-//                try {
-//                    ((Throwable) data).printStackTrace();
-//                    Throwable throwable = (Throwable) data;
-//                    JSONObject object = new JSONObject(throwable.getMessage());
-//                    String des = object.optString("detail");
-//                    status = object.optInt("status");
-//                    if (!TextUtils.isEmpty(des)) {
-//                        Toast.makeText(RegistActivity.this, des, Toast.LENGTH_SHORT).show();
-//                        return;
-//                    }
-//                } catch (Exception e) {
-//                    SMSLog.getInstance().w(e);
-//                }
-//            }
-//        }
-//    };
 }
