@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:padding="@dimen/layout_distance"
+    android:orientation="vertical"
+    android:background="@color/colorBackgroud"
     android:layout_height="match_parent">
+    <include layout="@layout/navigationbar_layout"></include>
+<ScrollView
+    android:layout_width="wrap_content"
+    android:background="@color/colorWhite"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginBottom="50dp"
+        android:padding="@dimen/layout_distance"
+        android:layout_height="match_parent">
 <LinearLayout
     android:id="@+id/ll_top"
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="wrap_content">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
+
         android:gravity="center"
         android:layout_height="217dp">
         <ImageView
@@ -38,6 +51,7 @@
             android:textColor="@color/textcolor_smallittle"
             android:textSize="@dimen/textsize_largetittle"
             android:background="@null"
+            android:text="17767094470"
             android:hint="请输入手机号码"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -67,6 +81,7 @@
             android:textColor="@color/textcolor_smallittle"
             android:textSize="@dimen/textsize_largetittle"
             android:background="@null"
+            android:text="12345678"
             android:hint="请输入密码"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -128,6 +143,7 @@
         android:layout_below="@id/ll_top"
         android:orientation="vertical"
         android:gravity="bottom"
+        android:layout_marginTop="35dp"
         android:layout_alignParentBottom="true"
         android:layout_height="wrap_content">
     <RelativeLayout
@@ -182,4 +198,6 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
     </LinearLayout>
-</RelativeLayout>
+    </RelativeLayout>
+</ScrollView>
+</LinearLayout>

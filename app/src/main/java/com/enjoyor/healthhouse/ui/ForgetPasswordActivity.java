@@ -11,7 +11,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.enjoyor.healthhouse.R;
+import com.enjoyor.healthhouse.net.ApiMessage;
+import com.enjoyor.healthhouse.net.AsyncHttpUtil;
+import com.enjoyor.healthhouse.url.UrlInterface;
 import com.enjoyor.healthhouse.utils.StringUtils;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.apache.http.Header;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -36,6 +43,7 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
     private Handler handler;
     private String phoneNumber;
     private String password;
+    private String MSG_CODE = "msg/send.action";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,10 +91,34 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
                     et_phonenumber.requestFocus();
                 } else {
                     sendingAutoCode();
+                    getCode(et_phonenumber.getText().toString());
                 }
 
                 break;
         }
+    }
+
+    private void getCode(String phone) {
+        RequestParams params = new RequestParams();
+        params.add("service", String.valueOf("mob"));
+        params.add("phone", phone);
+        AsyncHttpUtil.post(UrlInterface.TEXT_URL + MSG_CODE, params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                String json = new String(bytes);
+                ApiMessage apiMessage = ApiMessage.FromJson(json);
+                if (apiMessage.Code == 1001) {
+
+                }else{
+                    reSet();
+                }
+            }
+
+            @Override
+            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+
+            }
+        });
     }
 
     private boolean isCorrect() {
@@ -136,6 +168,6 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
             tv_code.setText("获取验证码");
         }
         tv_code.setEnabled(true);
-        count = 30;
+        count = 60;
     }
 }

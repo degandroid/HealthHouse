@@ -13,7 +13,6 @@ public class MainActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setImmerseLayout(findViewById(R.id.common_back));
         Handler x = new Handler();
         x.postDelayed(new splashhandler(), 2000);
 

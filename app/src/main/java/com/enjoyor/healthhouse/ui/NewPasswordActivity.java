@@ -60,4 +60,6 @@ public class NewPasswordActivity extends BaseActivity implements View.OnClickLis
         }
         return true;
     }
+
+
 }

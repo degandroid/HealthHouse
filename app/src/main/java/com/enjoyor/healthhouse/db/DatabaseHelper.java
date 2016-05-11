@@ -2,110 +2,60 @@ package com.enjoyor.healthhouse.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteDatabase.CursorFactory;
+import android.util.Log;
 
-import com.enjoyor.healthhouse.bean.User;
+import com.enjoyor.healthhouse.bean.UserInfo;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
-import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 
-/**
- * Created by YuanYuan on 2016/4/25.
- */
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
-    private static final String DateBase_NAME = "sqlite-test.db";
+	private Context mContext;
+	public static final String DB_NAME = "balehealth.db";
+	//	public static final int DB_VERSION = DegApplication.getInstance().getDBVersion();
+	public static final int DB_VERSION = 1;
 
-    private Map<String, Dao> daos = new HashMap<String, Dao>();
+	public DatabaseHelper(Context context) {
 
-    private DatabaseHelper(Context context)
-    {
-        super(context, DateBase_NAME, null, 4);
-    }
+		this(context, DB_NAME, null, DB_VERSION);
+		this.mContext = context;
 
-    @Override
-    public void onCreate(SQLiteDatabase database,
-                         ConnectionSource connectionSource)
-    {
-        try
-        {
-            TableUtils.createTable(connectionSource, User.class);
-        }catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+	}
 
-    @Override
-    public void onUpgrade(SQLiteDatabase database,
-                          ConnectionSource connectionSource, int oldVersion, int newVersion)
-    {
-        try
-        {
-            TableUtils.dropTable(connectionSource, User.class, true);
-            onCreate(database, connectionSource);
-        } catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-    }
+	public DatabaseHelper(Context context, String databaseName,
+						  CursorFactory factory, int databaseVersion) {
+		super(context, databaseName, factory, databaseVersion);
+		// TODO Auto-generated constructor stub
+	}
 
-    private static DatabaseHelper instance;
+	@Override
+	public void onCreate(SQLiteDatabase db, ConnectionSource cs) {
+		// TODO Auto-generated method stub
+		try {
+			TableUtils.createTableIfNotExists(cs, UserInfo.class);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
-    /**
-     * 单例获取该Helper
-     *
-     * @param context
-     * @return
-     */
-    public static synchronized DatabaseHelper getHelper(Context context)
-    {
-        context = context.getApplicationContext();
-        if (instance == null)
-        {
-            synchronized (DatabaseHelper.class)
-            {
-                if (instance == null)
-                    instance = new DatabaseHelper(context);
-            }
-        }
+	@Override
+	public void onUpgrade(SQLiteDatabase sd, ConnectionSource cs, int arg2,
+						  int arg3) {
+		// TODO Auto-generated method stub
+		try {
+			Log.i("zxw", "---->onUpgrade>>");
+			TableUtils.dropTable(cs, UserInfo.class, true);
+			onCreate(sd, cs);
 
-        return instance;
-    }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-    public synchronized Dao getDao(Class clazz) throws SQLException
-    {
-        Dao dao = null;
-        String className = clazz.getSimpleName();
 
-        if (daos.containsKey(className))
-        {
-            dao = daos.get(className);
-        }
-        if (dao == null)
-        {
-            dao = super.getDao(clazz);
-            daos.put(className, dao);
-        }
-        return dao;
-    }
-
-    /**
-     * 释放资源
-     */
-    @Override
-    public void close()
-    {
-        super.close();
-
-        for (String key : daos.keySet())
-        {
-            Dao dao = daos.get(key);
-            dao = null;
-        }
-    }
+	}
 
 }
