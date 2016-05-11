@@ -114,6 +114,7 @@
                     android:layout_toRightOf="@+id/regist_key"
                     android:background="@null"
                     android:hint="请输入密码"
+                    android:inputType="textPassword"
                     android:singleLine="true"
                     android:textSize="@dimen/textsize_largetittle" />
 
