@@ -5,6 +5,10 @@
     android:background="@color/colorBackgroud"
     android:layout_height="match_parent">
     <include layout="@layout/navigationbar_layout"></include>
+    <TextView
+        android:layout_width="match_parent"
+        android:background="@color/colorBackgroud"
+        android:layout_height="@dimen/bar_background" />
 <ScrollView
     android:layout_width="wrap_content"
     android:background="@color/colorWhite"

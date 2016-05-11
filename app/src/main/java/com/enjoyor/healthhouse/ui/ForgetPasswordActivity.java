@@ -7,6 +7,7 @@ import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,9 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2016/5/9.
  */
 public class ForgetPasswordActivity extends BaseActivity implements View.OnClickListener {
+    @Bind(R.id.navigation_name)TextView navigation_name;
+    @Bind(R.id.re_back)RelativeLayout re_back;
+
     @Bind(R.id.et_phonenumber)
     EditText et_phonenumber;
     @Bind(R.id.et_password)
@@ -50,6 +54,8 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgetpassword);
         ButterKnife.bind(this);
+
+        navigation_name.setText("忘记密码");
         initOnClick();
         initCode();
     }
@@ -73,12 +79,16 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
         et_password.setOnClickListener(this);
         tv_code.setOnClickListener(this);
         bt_commit.setOnClickListener(this);
+        re_back.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         int key = v.getId();
         switch (key) {
+            case R.id.re_back:
+                finish();
+                break;
             case R.id.bt_commit:
                 if (isCorrect()) {
                     Intent intent = new Intent(ForgetPasswordActivity.this, NewPasswordActivity.class);

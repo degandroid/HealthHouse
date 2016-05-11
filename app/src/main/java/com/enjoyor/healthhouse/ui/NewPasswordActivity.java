@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.enjoyor.healthhouse.R;
@@ -17,6 +19,9 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2016/5/9.
  */
 public class NewPasswordActivity extends BaseActivity implements View.OnClickListener {
+    @Bind(R.id.navigation_name)TextView navigation_name;
+    @Bind(R.id.re_back)RelativeLayout re_back;
+
     @Bind(R.id.et_newpassword)EditText et_newpassword;
     @Bind(R.id.et_again_newpassword)EditText et_again_newpassword;
     @Bind(R.id.bt_commit)Button bt_commit;
@@ -26,18 +31,23 @@ public class NewPasswordActivity extends BaseActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newpassword);
         ButterKnife.bind(this);
+        navigation_name.setText("新密码");
         initOnClick();
     }
     private void initOnClick() {
         et_newpassword.setOnClickListener(this);
         et_again_newpassword.setOnClickListener(this);
         bt_commit.setOnClickListener(this);
+        re_back.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         int key = v.getId();
         switch (key){
+            case R.id.re_back:
+                finish();
+                break;
             case R.id.bt_commit:
                 if(isCorrect()){
                     Intent intent = new Intent(NewPasswordActivity.this,MainTabActivity.class);

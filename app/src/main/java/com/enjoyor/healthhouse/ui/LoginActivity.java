@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +30,10 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2016/5/9.
  */
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
+    @Bind(R.id.navigation_name)TextView navigation_name;
+    @Bind(R.id.navigation_back)ImageView navigation_back;
+    @Bind(R.id.re_back)RelativeLayout re_back;
+
     @Bind(R.id.et_phonenumber)
     EditText et_phonenumber;
     @Bind(R.id.et_password)
@@ -51,6 +57,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
+        navigation_name.setText("登陆");
+        navigation_back.setVisibility(View.INVISIBLE);
         initOnClick();
     }
 
@@ -60,6 +68,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         bt_login.setOnClickListener(this);
         tv_forget_password.setOnClickListener(this);
         tv_login_quick.setOnClickListener(this);
+        navigation_back.setOnClickListener(this);
     }
 
     @Override
