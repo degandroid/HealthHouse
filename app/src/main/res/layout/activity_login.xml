@@ -12,15 +12,14 @@
         android:layout_height="@dimen/bar_background"
         android:background="@color/colorBackgroud" />
 
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/colorWhite">
+    <!--<ScrollView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/colorWhite">-->
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="15dp"
             android:padding="@dimen/layout_distance">
 
             <LinearLayout
@@ -31,7 +30,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="217dp"
+                    android:layout_height="150dp"
                     android:gravity="center"
                     android:orientation="vertical">
 
@@ -159,7 +158,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_below="@id/ll_top"
                 android:layout_marginTop="20dp"
                 android:gravity="bottom"
                 android:orientation="vertical">
@@ -262,5 +260,5 @@
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
-    </ScrollView>
+    <!--</ScrollView>-->
 </LinearLayout>
