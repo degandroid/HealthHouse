@@ -30,9 +30,12 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2016/5/9.
  */
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
-    @Bind(R.id.navigation_name)TextView navigation_name;
-    @Bind(R.id.navigation_back)ImageView navigation_back;
-    @Bind(R.id.re_back)RelativeLayout re_back;
+    @Bind(R.id.navigation_name)
+    TextView navigation_name;
+    @Bind(R.id.navigation_back)
+    ImageView navigation_back;
+    @Bind(R.id.re_back)
+    RelativeLayout re_back;
 
     @Bind(R.id.et_phonenumber)
     EditText et_phonenumber;
@@ -55,6 +58,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        setImmerseLayout(findViewById(R.id.navigation));
         ButterKnife.bind(this);
 
         navigation_name.setText("登陆");
@@ -88,8 +92,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
 
             case R.id.tv_forget_password:
-                    Intent intent_forget = new Intent(LoginActivity.this, ForgetPasswordActivity.class);
-                    startActivity(intent_forget);
+                Intent intent_forget = new Intent(LoginActivity.this, ForgetPasswordActivity.class);
+                startActivity(intent_forget);
                 break;
 
             case R.id.tv_login_quick:
@@ -115,7 +119,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private boolean isCorrect() {
         phoneNumber = et_phonenumber.getText().toString().trim();
         password = et_password.getText().toString().trim();
-        Log.i("zxw",phoneNumber+"\n"+password);
+        Log.i("zxw", phoneNumber + "\n" + password);
         if (StringUtils.isBlank(phoneNumber)) {
             Toast.makeText(LoginActivity.this, "手机号码不能为空", Toast.LENGTH_LONG).show();
             et_phonenumber.requestFocus();
@@ -130,7 +134,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
 
     private void initData() {
-        Log.i("zxw",phoneNumber+"\n"+password);
+        Log.i("zxw", phoneNumber + "\n" + password);
         RequestParams params = new RequestParams();
         params.add("origin", String.valueOf("AndroidApp"));
         params.add("userLoginName", phoneNumber);
@@ -149,6 +153,21 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     }
                     Intent intent = new Intent(LoginActivity.this, MainTabActivity.class);
                     startActivity(intent);
+                } else {
+                    dialog(LoginActivity.this, "用户名或者密码错误", "取消", "重新输入", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            disappear();
+                        }
+                    }, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            et_password.setText("");
+                            disappear();
+                            et_password.requestFocus();
+                        }
+                    });
+//                    Toast.makeText(LoginActivity.this, "用户名或者密码错误，请重新输入", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -164,7 +183,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 //            UserInfo user2 = new UserInfo();
             user.setId(1);
 //            user2.setLoginName("ABCD");
-            Log.i("zxw", "user.getLoginName()=="+user.getLoginName());
+            Log.i("zxw", "user.getLoginName()==" + user.getLoginName());
             return MyApplication.getInstance().getDBHelper().saveUser(user);
         }
         return false;

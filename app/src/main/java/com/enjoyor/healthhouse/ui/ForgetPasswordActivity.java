@@ -31,8 +31,10 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2016/5/9.
  */
 public class ForgetPasswordActivity extends BaseActivity implements View.OnClickListener {
-    @Bind(R.id.navigation_name)TextView navigation_name;
-    @Bind(R.id.re_back)RelativeLayout re_back;
+    @Bind(R.id.navigation_name)
+    TextView navigation_name;
+    @Bind(R.id.re_back)
+    RelativeLayout re_back;
 
     @Bind(R.id.et_phonenumber)
     EditText et_phonenumber;
@@ -92,6 +94,8 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
             case R.id.bt_commit:
                 if (isCorrect()) {
                     Intent intent = new Intent(ForgetPasswordActivity.this, NewPasswordActivity.class);
+                    intent.putExtra("YanZheng", et_password.getText().toString().trim());
+                    intent.putExtra("phone", et_phonenumber.getText().toString().trim());
                     startActivity(intent);
                 }
                 break;
@@ -119,7 +123,7 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
                 ApiMessage apiMessage = ApiMessage.FromJson(json);
                 if (apiMessage.Code == 1001) {
 
-                }else{
+                } else {
                     reSet();
                 }
             }
@@ -139,7 +143,7 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
             et_phonenumber.requestFocus();
             return false;
         } else if (StringUtils.isBlank(password)) {
-            Toast.makeText(ForgetPasswordActivity.this, "密码不能为空", Toast.LENGTH_LONG).show();
+            Toast.makeText(ForgetPasswordActivity.this, "验证码不能为空", Toast.LENGTH_LONG).show();
             et_password.requestFocus();
             return false;
         }
@@ -172,7 +176,7 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
     }
 
     private void reSet() {
-        if (phoneNumber != null&& phoneNumber.equals(et_phonenumber.getText().toString().trim())) {
+        if (phoneNumber != null && phoneNumber.equals(et_phonenumber.getText().toString().trim())) {
             tv_code.setText("重新获取");
         } else {
             tv_code.setText("获取验证码");
