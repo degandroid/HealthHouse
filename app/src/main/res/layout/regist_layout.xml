@@ -46,6 +46,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:paddingBottom="15sp"
+                    android:layout_marginLeft="5dp"
                     android:paddingRight="15sp"
                     android:paddingTop="20sp"
                     android:src="@mipmap/bl_icon_phone" />
@@ -102,6 +103,7 @@
                     android:paddingBottom="15sp"
                     android:paddingRight="15sp"
                     android:paddingTop="20sp"
+                    android:layout_marginLeft="5dp"
                     android:src="@mipmap/bl_icon_lock" />
 
                 <EditText
@@ -153,6 +155,7 @@
                     android:paddingBottom="15sp"
                     android:paddingRight="15sp"
                     android:paddingTop="20sp"
+                    android:layout_marginLeft="5dp"
                     android:src="@mipmap/bl_icon_key" />
 
                 <EditText
@@ -234,7 +237,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="10dp"
             android:gravity="center"
             android:text="我已阅读并认可" />
 
@@ -242,7 +245,7 @@
             android:id="@+id/regist_agreement"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="5dp"
             android:gravity="center"
             android:text="《芭乐软件服务协议》"
             android:textColor="@color/colorAccent" />

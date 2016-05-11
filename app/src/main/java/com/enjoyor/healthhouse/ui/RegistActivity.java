@@ -81,7 +81,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                 // TODO Auto-generated method stub
                 super.handleMessage(msg);
                 if (msg.what > 0) {
-                    regist_yanzheng.setText("剩余"+msg.what + "秒");
+                    regist_yanzheng.setText("剩余" + msg.what + "秒");
                 }
             }
         };
@@ -120,6 +120,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                 }
                 break;
             case R.id.regist:
+
                 regist();
                 break;
             case R.id.regist_phone_delete:
@@ -172,6 +173,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                         String json = new String(bytes);
                         ApiMessage apiMessage = ApiMessage.FromJson(json);
                         if (apiMessage.Code == 1001) {
+
                             Toast.makeText(RegistActivity.this, "注册成功", Toast.LENGTH_LONG).show();
                         } else {
                             if (!TextUtils.isEmpty(registphonenumber.getText().toString()) && !TextUtils.isEmpty(regist_password.getText().toString()) && !TextUtils.isEmpty(regist_tv_yanzheng.getText().toString())) {
