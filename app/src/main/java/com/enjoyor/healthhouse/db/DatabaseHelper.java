@@ -16,6 +16,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
 	private Context mContext;
 	public static final String DB_NAME = "balehealth.db";
+	
 	//	public static final int DB_VERSION = DegApplication.getInstance().getDBVersion();
 	public static final int DB_VERSION = 1;
 
