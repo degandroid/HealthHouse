@@ -13,6 +13,9 @@ public class UrlInterface {
     public static String SendMsg_URL = TEXT_URL + "msg/send.action";
     //修改密码的接口
     public static String ModifyPwd_URL = TEXT_URL + "account/apprestpwd.action";
+    //获取体检地点接口
+    public static String PhysicallAddr_URL = TEXT_URL + "base/dis/machine/list.do";
+
 
 
 }

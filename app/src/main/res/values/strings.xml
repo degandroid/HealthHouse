@@ -13,4 +13,11 @@
     <string name="welcome_bottom">\@\ all right recoverd</string>
     <string name="welcome_middle">\"芭\"握现在，乐在健康</string>
     <string name="welcome_lable">健康宝互联网技术有限公司</string>
+    <string name="pullup_to_load">上拉加载</string>
+    <string name="pull_to_refresh">下拉刷新</string>
+    <string name="bp_input">血压录入</string>
+    <string name="history">历史</string>
+    <string name="record_date">记录日期</string>
+    <string name="reccord_time">记录时间</string>
+    <string name="save">保存</string>
 </resources>

@@ -6,9 +6,7 @@
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/enjoyor/healthhouse/adapter/ViewHolder.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/enjoyor/healthhouse/application/MyApplication.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/enjoyor/healthhouse/bean" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/enjoyor/healthhouse/constant" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/enjoyor/healthhouse/custom" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/enjoyor/healthhouse/dao" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/enjoyor/healthhouse/db" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/enjoyor/healthhouse/fragments" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/enjoyor/healthhouse/net" charset="UTF-8" />
@@ -25,10 +23,6 @@
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/common_back.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/dialog_process.xml" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/back_normal.png" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/back_pressed.png" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/check_version_btn_normal.png" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/check_version_btn_pressed.png" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/values/dimens.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml" charset="UTF-8" />
