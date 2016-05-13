@@ -14,9 +14,11 @@ import android.widget.Toast;
 import com.enjoyor.healthhouse.R;
 import com.enjoyor.healthhouse.application.MyApplication;
 import com.enjoyor.healthhouse.bean.UserInfo;
+import com.enjoyor.healthhouse.common.BaseDate;
 import com.enjoyor.healthhouse.net.ApiMessage;
 import com.enjoyor.healthhouse.net.AsyncHttpUtil;
 import com.enjoyor.healthhouse.net.JsonHelper;
+import com.enjoyor.healthhouse.url.UrlInterface;
 import com.enjoyor.healthhouse.utils.StringUtils;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -52,7 +54,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private String phoneNumber;
     private String password;
 
-    private String LOGIN_URL = "http://115.28.37.145:9008/healthstationserver/account/applogin.action";
+    private String LOGIN_URL = "account/applogin.action";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,7 +142,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         params.add("userLoginName", phoneNumber);
         params.add("userLoginPwd", password);
         params.add("userLoginType", String.valueOf("2"));
-        AsyncHttpUtil.post(LOGIN_URL, params, new AsyncHttpResponseHandler() {
+        AsyncHttpUtil.post(UrlInterface.TEXT_URL+LOGIN_URL, params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int i, Header[] headers, byte[] bytes) {
                 String json = new String(bytes);
@@ -184,6 +186,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             user.setId(1);
 //            user2.setLoginName("ABCD");
             Log.i("zxw", "user.getLoginName()==" + user.getLoginName());
+            user.setUserLoginPwd(password);
+            BaseDate.setSessionId(LoginActivity.this,user.getAccountId());
             return MyApplication.getInstance().getDBHelper().saveUser(user);
         }
         return false;

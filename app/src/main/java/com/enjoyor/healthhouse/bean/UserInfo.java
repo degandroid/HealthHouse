@@ -17,6 +17,8 @@ public class UserInfo {
     @DatabaseField
     String loginName;//系统登录名称
     @DatabaseField
+    String userLoginPwd;//系统登录密码
+    @DatabaseField
     String nickName;//用户昵称
     @DatabaseField
     String headImg;//头像
@@ -58,6 +60,14 @@ public class UserInfo {
     String recordContent;//健康描述,目前是估值分数
 
     public UserInfo() {
+    }
+
+    public String getUserLoginPwd() {
+        return userLoginPwd;
+    }
+
+    public void setUserLoginPwd(String userLoginPwd) {
+        this.userLoginPwd = userLoginPwd;
     }
 
     public int getId() {

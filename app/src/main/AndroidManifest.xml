@@ -55,6 +55,10 @@
         <activity
             android:name=".ui.RegistActivity"
             android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name=".ui.RoundIconActivity"
+            android:screenOrientation="portrait"></activity>
         <!--注册自定义广播-->
         <receiver android:name=".receive.MyReceiver">
             <intent-filter>

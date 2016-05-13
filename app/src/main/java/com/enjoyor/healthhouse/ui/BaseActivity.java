@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
@@ -21,6 +22,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.enjoyor.healthhouse.R;
+import com.enjoyor.healthhouse.common.BaseDate;
 import com.enjoyor.healthhouse.receive.JudgeNetIsConnectedReceiver;
 import com.enjoyor.healthhouse.utils.ScreenUtil;
 import com.enjoyor.healthhouse.utils.ToastUtil;
@@ -279,5 +281,26 @@ public class BaseActivity extends AppCompatActivity {
     }
     public void disappear(){
         dialog.cancel();
+    }
+
+    public boolean isLogin(Context context)
+    {
+        if(BaseDate.getSessionId(context)==null)
+        {
+            dialog(context, "亲,您还未登录，是否立即登录", "取消", "确定", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    disappear();
+                }
+            }, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(BaseActivity.this,LoginActivity.class);
+                    startActivity(intent);
+                }
+            });
+            return false;
+        }
+        return true;
     }
 }

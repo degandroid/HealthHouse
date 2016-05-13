@@ -15,7 +15,8 @@ public class UrlInterface {
     public static String ModifyPwd_URL = TEXT_URL + "account/apprestpwd.action";
     //获取体检地点接口
     public static String PhysicallAddr_URL = TEXT_URL + "base/dis/machine/list.do";
-
+    //    所有的文件路径主路径为
+    public static String FILE_URL = "http://115.28.37.145:9008/healthstationserver/files/";
 
 
 }
