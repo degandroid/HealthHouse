@@ -196,6 +196,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/rl_choicedate"
             android:layout_width="match_parent"
             android:layout_height="90px">
 
@@ -226,12 +227,13 @@
                 android:src="@mipmap/xiangxia_jiantou" />
 
             <TextView
+                android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginRight="30px"
                 android:layout_toLeftOf="@id/bpinput_arrow"
                 android:gravity="center"
-                android:text="2016-5-13"
+                android:text="请选择"
                 android:textSize="30px" />
         </RelativeLayout>
 
@@ -251,6 +253,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/rl_choicetime"
             android:layout_width="match_parent"
             android:layout_height="90px">
 
@@ -281,12 +284,13 @@
                 android:src="@mipmap/xiangxia_jiantou" />
 
             <TextView
+                android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginRight="30px"
                 android:layout_toLeftOf="@id/bpinput_arrows"
                 android:gravity="center"
-                android:text="16点"
+                android:text="请选择"
                 android:textSize="30px" />
         </RelativeLayout>
 

@@ -2,25 +2,46 @@ package com.enjoyor.healthhouse.ui;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
+import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Switch;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.enjoyor.healthhouse.R;
+import com.enjoyor.healthhouse.custom.WheelView;
+import com.enjoyor.healthhouse.utils.DateUtil;
 import com.xk.sanjay.rulberview.RulerWheel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Created by YuanYuan on 2016/5/13.
  */
 public class BPInputActivity extends BaseActivity implements View.OnClickListener {
+    private int CHOICE_DATE = 1;
+    private int CHOICE_TIME = 2;
+    private int DEFAULT_VALUE = 0;
+    private String str_year;
+    private String str_mouth;
+    private String str_day;
+    private String str_hour;
+    private PopupWindow popupWindow;
     private String TAG = this.getClass().getSimpleName();
+    @Bind(R.id.tv_right)TextView tv_right;
+    @Bind(R.id.tv_time)TextView tv_time;
+    @Bind(R.id.tv_date)
+    TextView tv_date;
+    @Bind(R.id.rl_choicetime)
+    RelativeLayout rl_choicetime;
+    @Bind(R.id.rl_choicedate)
+    RelativeLayout rl_choicedate;
     @Bind(R.id.navigation_back)
     ImageView navigation_back;
     @Bind(R.id.navigation_name)
@@ -44,6 +65,10 @@ public class BPInputActivity extends BaseActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bpinput_ac_layout);
+        ButterKnife.bind(this);
+        navigation_name.setText("血压录入");
+        tv_right.setVisibility(View.VISIBLE);
+        tv_right.setText("历史");
         setImmerseLayout(findViewById(R.id.navigation));
         Log.d("tag", "create");
         initView();
@@ -51,6 +76,8 @@ public class BPInputActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void initEvent() {
+        rl_choicedate.setOnClickListener(this);
+        rl_choicetime.setOnClickListener(this);
         bpinput_img_up_jian.setOnClickListener(this);
         bpinput_img_up_jia.setOnClickListener(this);
         bpinput_img_low_jian.setOnClickListener(this);
@@ -67,7 +94,7 @@ public class BPInputActivity extends BaseActivity implements View.OnClickListene
         bpinput_img_low_jian = (ImageView) findViewById(R.id.bpinput_img_low_jian);
         bpiinput_img_up_jia = (ImageView) findViewById(R.id.bpiinput_img_up_jia);
         /**
-         * 舒张压刻度尺
+         * 鑸掑紶鍘嬪埢搴﹀昂
          */
         List<String> list = new ArrayList<>();
         for (int i = 0; i <= 250; i += 10) {
@@ -97,7 +124,7 @@ public class BPInputActivity extends BaseActivity implements View.OnClickListene
             }
         });
         /**
-         * 收缩压刻度尺
+         * 鏀剁缉鍘嬪埢搴﹀昂
          */
         bpinput_bp_tv_low.setText(80 + "");
         bpinput_low.setData(list);
@@ -141,6 +168,12 @@ public class BPInputActivity extends BaseActivity implements View.OnClickListene
                 int d = Integer.parseInt(bpinput_bp_tv_low.getText().toString());
                 updateData(2, d, bpinput_bp_tv_low, bpinput_low);
                 break;
+            case R.id.rl_choicedate:
+                initPopuptWindow(v, CHOICE_DATE);
+                break;
+            case R.id.rl_choicetime:
+                initPopuptWindow(v, CHOICE_TIME);
+                break;
         }
     }
 
@@ -153,5 +186,164 @@ public class BPInputActivity extends BaseActivity implements View.OnClickListene
         id.setText(str + "");
         view.setSelectedValue(str + "");
         view.invalidate();
+    }
+
+    protected void initPopuptWindow(View view, int which) {
+        // TODO Auto-generated method stub
+
+        View popupWindow_view = getLayoutInflater().inflate(R.layout.popwindow_wheelview, null, false);
+        popupWindow = new PopupWindow(popupWindow_view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.setAnimationStyle(R.style.Animation_AppCompat_DropDownUp);
+        if (CHOICE_DATE == which) {
+            initWheelViewDate(popupWindow_view);
+            popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+        }else if (CHOICE_TIME == which) {
+            initWheelViewTime(popupWindow_view);
+            popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+        }else{
+            if(popupWindow!=null){
+                popupWindow.dismiss();
+            }
+        }
+
+    }
+
+    private void initWheelViewTime(View popupWindow_view) {
+        WheelView wv_year = (WheelView) popupWindow_view.findViewById(R.id.wv_year);
+        WheelView wv_mouth = (WheelView) popupWindow_view.findViewById(R.id.wv_mouth);
+        WheelView wv_day = (WheelView) popupWindow_view.findViewById(R.id.wv_day);
+        wv_year.setVisibility(View.GONE);
+        wv_mouth.setVisibility(View.GONE);
+        wv_day.setData(getStartData(4));
+        wv_day.setDefault(DEFAULT_VALUE);
+        wv_day.setOnSelectListener(new WheelView.OnSelectListener() {
+            @Override
+            public void endSelect(int id, String text) {
+                str_hour = text;
+            }
+
+            @Override
+            public void selecting(int id, String text) {
+            }
+        });
+        str_hour = wv_day.getSelectedText();
+        popupWindow_view.findViewById(R.id.bt_commit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv_time.setText(str_hour);
+                popupWindow.dismiss();
+            }
+        });
+        popupWindow_view.findViewById(R.id.bt_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+    }
+
+    private void initWheelViewDate(View popupWindow_view) {
+        WheelView wv_year = (WheelView) popupWindow_view.findViewById(R.id.wv_year);
+        WheelView wv_mouth = (WheelView) popupWindow_view.findViewById(R.id.wv_mouth);
+        WheelView wv_day = (WheelView) popupWindow_view.findViewById(R.id.wv_day);
+        wv_year.setData(getStartData(1));
+        wv_mouth.setData(getStartData(2));
+        wv_day.setData(getStartData(3));
+        wv_year.setDefault(DEFAULT_VALUE);
+        wv_mouth.setDefault(DEFAULT_VALUE);
+        wv_day.setDefault(DEFAULT_VALUE);
+        wv_year.setOnSelectListener(new WheelView.OnSelectListener() {
+            @Override
+            public void endSelect(int id, String text) {
+                str_year = text;
+            }
+
+            @Override
+            public void selecting(int id, String text) {
+            }
+        });
+        str_year = wv_year.getSelectedText();
+        wv_mouth.setOnSelectListener(new WheelView.OnSelectListener() {
+            @Override
+            public void endSelect(int id, String text) {
+                str_mouth = text;
+            }
+
+            @Override
+            public void selecting(int id, String text) {
+            }
+        });
+        str_mouth = wv_mouth.getSelectedText();
+        wv_day.setOnSelectListener(new WheelView.OnSelectListener() {
+            @Override
+            public void endSelect(int id, String text) {
+                str_day = text;
+            }
+
+            @Override
+            public void selecting(int id, String text) {
+            }
+        });
+        str_day = wv_day.getSelectedText();
+        popupWindow_view.findViewById(R.id.bt_commit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv_date.setText(str_year+str_mouth+str_day);
+                popupWindow.dismiss();
+            }
+        });
+        popupWindow_view.findViewById(R.id.bt_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+    }
+
+    private ArrayList<String> getStartData(int start) {
+        ArrayList<String> list = new ArrayList<>();
+        long date;
+        switch (start) {
+            case 1:
+                for (int i = 0; i < 10; i++) {
+                    date = DateUtil.getDaysAfter(i);
+                    String str_year = DateUtil.longToDateString(date, "yyyy");
+                    int year = Integer.parseInt(str_year) + i;
+                    list.add(year + "年");
+                }
+                break;
+            case 2:
+                for (int i = 0; i < 12; i++) {
+                    date = DateUtil.getDaysAfter(i);
+                    String str_mouth = DateUtil.longToDateString(date, "MM");
+                    int mouth = Integer.parseInt(str_mouth) + i;
+                    if (mouth > 12) {
+                        mouth -= 12;
+                    }
+                    list.add(mouth + "月");
+                }
+                break;
+            case 3:
+                for (int i = 0; i < 30; i++) {
+                    date = DateUtil.getDaysAfter(i);
+                    String str_day = DateUtil.longToDateString(date, "dd");
+                    list.add(str_day + "日");
+                }
+                break;
+            case 4:
+                for (int i = 0; i < 24; i++) {
+                    date = DateUtil.getDaysAfter(i);
+                    String str_mouth = DateUtil.longToDateString(date, "HH");
+                    int hour = Integer.parseInt(str_mouth) + i;
+                    if (hour > 24) {
+                        hour -= 24;
+                    }
+                    list.add(hour + "点");
+                }
+                break;
+        }
+
+        return list;
+
     }
 }
