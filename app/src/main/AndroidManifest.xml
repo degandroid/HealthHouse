@@ -30,7 +30,7 @@
 
         <!--欢迎界面-->
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.BPInputActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -59,9 +59,13 @@
         <activity
             android:name=".ui.RegistActivity"
             android:screenOrientation="portrait"></activity>
-
+        <!--每个圆形入口界面-->
         <activity
             android:name=".ui.RoundIconActivity"
+            android:screenOrientation="portrait"></activity>
+        <!--随手记-->
+        <activity
+            android:name=".ui.NotesActivity"
             android:screenOrientation="portrait"></activity>
         <!--注册自定义广播-->
         <receiver android:name=".receive.MyReceiver">
