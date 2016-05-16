@@ -24,9 +24,9 @@ import com.enjoyor.healthhouse.bean.Banner;
 import com.enjoyor.healthhouse.net.ApiMessage;
 import com.enjoyor.healthhouse.net.AsyncHttpUtil;
 import com.enjoyor.healthhouse.net.JsonHelper;
+import com.enjoyor.healthhouse.ui.NotesActivity;
 import com.enjoyor.healthhouse.ui.RoundIconActivity;
 import com.enjoyor.healthhouse.url.UrlInterface;
-import com.enjoyor.healthhouse.utils.ScrollListUtil;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -61,30 +61,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     TextView navigation_name;
     @Bind(R.id.navigation_back)
     ImageView navigation_back;
-    @Bind(R.id.vp_banner)
-    ViewPager vp_banner;
-    @Bind(R.id.ll_dots)
-    LinearLayout ll_dots;
-    @Bind(R.id.ll_roundicon1)
-    LinearLayout ll_roundicon1;
-    @Bind(R.id.ll_roundicon2)
-    LinearLayout ll_roundicon2;
-    @Bind(R.id.ll_xueya)
-    LinearLayout ll_xueya;
-    @Bind(R.id.ll_BMI)
-    LinearLayout ll_BMI;
-    @Bind(R.id.ll_xuetang)
-    LinearLayout ll_xuetang;
-    @Bind(R.id.ll_xueyang)
-    LinearLayout ll_xueyang;
-    @Bind(R.id.ll_yaowei)
-    LinearLayout ll_yaowei;
-    @Bind(R.id.ll_danguchun)
-    LinearLayout ll_danguchun;
-    @Bind(R.id.ll_niaosuan)
-    LinearLayout ll_niaosuan;
-    @Bind(R.id.ll_xindian)
-    LinearLayout ll_xindian;
+
+    private ViewPager vp_banner;
+    private LinearLayout ll_dots;
+    private LinearLayout ll_roundicon1;
+    private LinearLayout ll_roundicon2;
     @Bind(R.id.lv_information)
     ListView lv_information;
     private List<ImageView> banner_list;
@@ -95,6 +76,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private int oldPosition = 0;//存放图片的id
     private ViewPagerAdapter adapter;
     private ScheduledExecutorService scheduledExecutorService;
+
+    private View headView = null;
 
     private String BANNER_URL = "display/index/banner.do";
     private String ARTICLES_URL = "articles/app/index.do";
@@ -109,13 +92,17 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         tv_right.setOnClickListener(this);
         navigation_name.setText("首页");
         navigation_back.setVisibility(View.INVISIBLE);
+        headView = LayoutInflater.from(getActivity()).inflate(R.layout.head_homefragment,null);
         initNetBanner();
         initRoundIcon();
+        lv_information.addHeaderView(headView);
         initArticle();
         return view;
     }
 
     private void initRoundIcon() {
+        ll_roundicon1 = (LinearLayout) headView.findViewById(R.id.ll_roundicon1);
+        ll_roundicon2 = (LinearLayout) headView.findViewById(R.id.ll_roundicon2);
         for(int i=0;i<ll_roundicon1.getChildCount();i++){
             ll_roundicon1.getChildAt(i).setOnClickListener(this);
         }
@@ -125,19 +112,25 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     }
 
     private void initListView() {
+        Article _article = new Article();
+        _article.setTitle("aa");
+        article.add(_article);
+        article.add(_article);
+        article.add(_article);
+        article.add(_article);
+        article.add(_article);
         lv_information.setAdapter(new InformationAdapter());
-        ScrollListUtil.setListViewHeightBasedOnChildren(lv_information);
         lv_information.setFocusable(false);
         lv_information.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                initArticle();
+
             }
         });
     }
 
     private void initViewPager() {
-
+        vp_banner = (ViewPager) headView.findViewById(R.id.vp_banner);
         adapter = new ViewPagerAdapter();
         vp_banner.setAdapter(adapter);
 
@@ -164,15 +157,16 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     }
 
     private void getBannerDate() {
+        ll_dots = (LinearLayout) headView.findViewById(R.id.ll_dots);
         dot_list = new ArrayList<>();
         for (int i = 0; i < banner_list.size(); i++) {
-            ImageView view = new ImageView(getActivity());
-            view.setImageResource(R.mipmap.image_indicator_dot);
+            ImageView _view = new ImageView(getActivity());
+            _view.setImageResource(R.mipmap.image_indicator_dot);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             lp.setMargins(2, 0, 2, 0);
-            view.setLayoutParams(lp);
-            ll_dots.addView(view);
-            dot_list.add(view);
+            _view.setLayoutParams(lp);
+            ll_dots.addView(_view);
+            dot_list.add(_view);
         }
         if (dot_list.size() > 0) {
             dot_list.get(0).setImageResource(R.mipmap.image_indicator_dot_focus);
@@ -341,6 +335,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         int key = v.getId();
         switch (key) {
             case R.id.tv_right:
+                Intent intent_notes = new Intent(getActivity(), NotesActivity.class);
+                startActivity(intent_notes);
                 break;
             case R.id.ll_xueya:
                 Intent intent_xueya = new Intent(getActivity(), RoundIconActivity.class);

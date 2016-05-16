@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <com.enjoyor.healthhouse.custom.WheelView
+        android:id="@+id/wv_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:itemNumber="6"
+        app:lineColor="@color/textcolor_largetittle"
+        app:maskHight="32dp"
+        app:noEmpty="true"
+        app:normalTextColor="@color/textcolor_smallittle"
+        app:normalTextSize="@dimen/textsize_smalltittle"
+        app:selectedTextColor="@color/colorBlack"
+        app:selectedTextSize="@dimen/textsize_largetittle"
+        app:unitHight="50dp"/>
+</LinearLayout>

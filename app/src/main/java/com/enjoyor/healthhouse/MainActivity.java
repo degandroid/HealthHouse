@@ -31,7 +31,9 @@ public class MainActivity extends BaseActivity {
     class splashhandler implements Runnable {
 
         public void run() {
-            initData();
+            Intent intent = new Intent(MainActivity.this, MainTabActivity.class);
+            startActivity(intent);
+//            initData();
         }
     }
     private void initData() {

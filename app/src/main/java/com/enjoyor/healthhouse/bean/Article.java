@@ -9,6 +9,16 @@ public class Article {
     int sort;//排序
     String title;// 标题
 
+    @Override
+    public String toString() {
+        return "Article{" +
+                "modifyTime='" + modifyTime + '\'' +
+                ", pageViews=" + pageViews +
+                ", sort=" + sort +
+                ", title='" + title + '\'' +
+                '}';
+    }
+
     public String getModifyTime() {
         return modifyTime;
     }
