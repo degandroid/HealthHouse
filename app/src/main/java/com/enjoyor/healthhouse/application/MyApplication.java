@@ -2,6 +2,7 @@ package com.enjoyor.healthhouse.application;
 
 import android.app.Application;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.enjoyor.healthhouse.db.DBHelper;
 
 /**
@@ -14,6 +15,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        SDKInitializer.initialize(getApplicationContext());
         instance = this;
     }
 

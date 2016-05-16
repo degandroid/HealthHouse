@@ -235,12 +235,12 @@
             android:textSize="@dimen/textsize_largetittle" />
 
         <TextView
+            android:id="@+id/physicall_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:drawableLeft="@mipmap/bl_icon_dingwei"
-            android:drawablePadding="5dp"
-            android:text="银江"
+            android:text=""
             android:textColor="@color/textcolor_body"
             android:textSize="@dimen/textsize_smalltittle" />
 
