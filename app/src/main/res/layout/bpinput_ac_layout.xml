@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorBackgroud"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <include layout="@layout/navigationbar_layout"></include>
@@ -54,20 +56,41 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="舒张压 （mmol/l）"
+                android:text="舒张压 （mmol/L）"
                 android:textSize="24px" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30px">
 
-            android:layout_height="130px">
-
-            <TextView
+            <com.xk.sanjay.rulberview.RulerWheel
+                android:id="@+id/bpinput_up"
+                android:layout_marginBottom="20px"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="刻度尺" />
+                android:layout_height="140px"
+                android:layout_marginLeft="30px"
+                android:layout_marginRight="30px"
+                android:background="@drawable/rulerselect"
+                app:MaxBarSize="2dp"
+                app:MidBarSize="1.5dp"
+                app:MinBarSize="1dp"
+                app:mask_bg="@mipmap/arrow"
+                app:alignMode="UP"
+                app:lineColorMax="#797979"
+                app:lineColorMid="#797979"
+                app:lineColorMin="#797979"
+
+                app:line_divider="10dp"
+                app:max_value="100"
+                app:min_value="0"
+                app:mode="SCALE"
+                app:scaleWidth="1dp"
+                app:showGradient="true"
+                app:showScaleValue="true"
+                app:text_Size="30"
+                app:text_color="#666666" />
         </LinearLayout>
     </LinearLayout>
 
@@ -118,19 +141,41 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="收缩压 （mmol/l）"
+                android:text="收缩压 （mmol/L）"
                 android:textSize="24px" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="130px">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30px">
 
-            <TextView
+            <com.xk.sanjay.rulberview.RulerWheel
+                android:id="@+id/bpinput_low"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="刻度尺" />
+                android:layout_height="140px"
+                android:layout_marginBottom="20px"
+                android:layout_marginLeft="30px"
+                android:layout_marginRight="30px"
+                android:background="@drawable/rulerselect"
+                app:MaxBarSize="2dp"
+                app:MidBarSize="1.5dp"
+                app:MinBarSize="1dp"
+                app:mask_bg="@mipmap/arrow"
+                app:alignMode="UP"
+                app:lineColorMax="#797979"
+                app:lineColorMid="#797979"
+                app:lineColorMin="#797979"
+
+                app:line_divider="10dp"
+                app:max_value="100"
+                app:min_value="0"
+                app:mode="SCALE"
+                app:scaleWidth="1dp"
+                app:showGradient="true"
+                app:showScaleValue="true"
+                app:text_Size="30"
+                app:text_color="#666666" />
         </LinearLayout>
     </LinearLayout>
 
@@ -247,14 +292,15 @@
 
     </LinearLayout>
 
-    <Button
+    <TextView
+        android:gravity="center"
         android:id="@+id/bpinput_save"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="90px"
         android:layout_marginLeft="60px"
         android:layout_marginRight="60px"
         android:layout_marginTop="90px"
-        android:background="@mipmap/baocun"
+        android:background="@drawable/btn_solid_greedyellow_radius"
         android:text="@string/save"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/textsize_largetittle" />

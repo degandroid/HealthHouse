@@ -3,6 +3,7 @@ package com.enjoyor.healthhouse.ui;
 import android.os.Bundle;
 
 import com.enjoyor.healthhouse.R;
+import com.enjoyor.healthhouse.adapter.PhysicallAdapter;
 import com.enjoyor.healthhouse.custom.PullToRefeshListView;
 
 import butterknife.Bind;
@@ -24,6 +25,7 @@ public class PhysicallocationActivity extends BaseActivity implements PullToRefe
     }
 
     private void initData() {
+//        PhysicallAdapter physicallAdapter = new PhysicallAdapter(this,)
 
     }
 
