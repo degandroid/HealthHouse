@@ -28,7 +28,6 @@ import com.bumptech.glide.Glide;
 import com.enjoyor.healthhouse.R;
 import com.enjoyor.healthhouse.bean.Article;
 import com.enjoyor.healthhouse.bean.Banner;
-import com.enjoyor.healthhouse.listener.MyLocationListener;
 import com.enjoyor.healthhouse.net.ApiMessage;
 import com.enjoyor.healthhouse.net.AsyncHttpUtil;
 import com.enjoyor.healthhouse.net.JsonHelper;
