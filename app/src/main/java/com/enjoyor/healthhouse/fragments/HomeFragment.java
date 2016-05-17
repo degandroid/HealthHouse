@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,16 +20,16 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.bumptech.glide.Glide;
 import com.enjoyor.healthhouse.R;
 import com.enjoyor.healthhouse.bean.Article;
 import com.enjoyor.healthhouse.bean.Banner;
+import com.enjoyor.healthhouse.common.Constant;
 import com.enjoyor.healthhouse.net.ApiMessage;
 import com.enjoyor.healthhouse.net.AsyncHttpUtil;
 import com.enjoyor.healthhouse.net.JsonHelper;
+import com.enjoyor.healthhouse.ui.BPInputActivity;
 import com.enjoyor.healthhouse.ui.NotesActivity;
 import com.enjoyor.healthhouse.ui.PhysicallocationActivity;
 import com.enjoyor.healthhouse.ui.RoundIconActivity;
@@ -82,9 +81,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private LinearLayout ll_roundicon2;
     @Bind(R.id.lv_information)
     ListView lv_information;
-    private List<ImageView> banner_list;
-    private List<ImageView> dot_list;
-    private List<Article> article;
+    private List<ImageView> banner_list = new ArrayList<>();
+    private List<ImageView> dot_list = new ArrayList<>();
+    private List<Article> article = new ArrayList<>();
 
     private int currentItem = 5000;//记录上一次点的位置
     private int oldPosition = 0;//存放图片的id
@@ -127,6 +126,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         initRoundIcon();
         lv_information.addHeaderView(headView);
         initArticle();
+        initListView();
         return view;
     }
 
@@ -197,7 +197,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     private void getBannerDate() {
         ll_dots = (LinearLayout) headView.findViewById(R.id.ll_dots);
-        dot_list = new ArrayList<>();
+//        dot_list = new ArrayList<>();
         for (int i = 0; i < banner_list.size(); i++) {
             ImageView _view = new ImageView(getActivity());
             _view.setImageResource(R.mipmap.image_indicator_dot);
@@ -221,13 +221,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 String json = new String(bytes);
                 ApiMessage apiMessage = ApiMessage.FromJson(json);
                 if (apiMessage.Code == 1001) {
-                    article = JsonHelper.getArrayJson(apiMessage.Data, Article.class);
-                    for (int n = 0; n < article.size(); n++) {
-                        Log.i("zxw", "article----------------------" + article.get(n).getTitle());
-                    }
-                    if (article.size() > 0) {
-                        initListView();
-                    }
+                    List<Article> _list = JsonHelper.getArrayJson(apiMessage.Data, Article.class);
+                    article.addAll(_list);
+//                    for (int n = 0; n < article.size(); n++) {
+//                        Log.i("zxw", "article----------------------" + article.get(n).getTitle());
+//                    }
+//                    if (article.size() > 0) {
+//                        initListView();
+//                    }
                 }
             }
 
@@ -246,7 +247,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 ApiMessage apiMessage = ApiMessage.FromJson(json);
                 if (apiMessage.Code == 1001) {
                     List<Banner> banners = JsonHelper.getArrayJson(apiMessage.Data, Banner.class);
-                    banner_list = new ArrayList<ImageView>();
+//                    banner_list = new ArrayList<ImageView>();
                     for (int j = 0; j < banners.size(); j++) {
                         String picUrl = UrlInterface.FILE_URL + banners.get(j).getFilePath();
                         ImageView imageView = new ImageView(getActivity());
@@ -381,43 +382,43 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(intent_notes);
                 break;
             case R.id.ll_xueya:
-                Intent intent_xueya = new Intent(getActivity(), RoundIconActivity.class);
-                intent_xueya.putExtra("fromWhere", RoundIconActivity.FROM_XUEYA);
+                Intent intent_xueya = new Intent(getActivity(), BPInputActivity.class);
+                intent_xueya.putExtra("fromWhere", Constant.FROM_XUEYA);
                 startActivity(intent_xueya);
                 break;
             case R.id.ll_BMI:
                 Intent intent_BMI = new Intent(getActivity(), RoundIconActivity.class);
-                intent_BMI.putExtra("fromWhere", RoundIconActivity.FROM_BMI);
+                intent_BMI.putExtra("fromWhere", Constant.FROM_BMI);
                 startActivity(intent_BMI);
                 break;
             case R.id.ll_xuetang:
-                Intent intent_xuetang = new Intent(getActivity(), RoundIconActivity.class);
-                intent_xuetang.putExtra("fromWhere", RoundIconActivity.FROM_XUETANG);
+                Intent intent_xuetang = new Intent(getActivity(), BPInputActivity.class);
+                intent_xuetang.putExtra("fromWhere", Constant.FROM_XUETANG);
                 startActivity(intent_xuetang);
                 break;
             case R.id.ll_xueyang:
                 Intent intent_xueyang = new Intent(getActivity(), RoundIconActivity.class);
-                intent_xueyang.putExtra("fromWhere", RoundIconActivity.FROM_XUEYANG);
+                intent_xueyang.putExtra("fromWhere", Constant.FROM_XUEYANG);
                 startActivity(intent_xueyang);
                 break;
             case R.id.ll_yaowei:
                 Intent intent_yaowei = new Intent(getActivity(), RoundIconActivity.class);
-                intent_yaowei.putExtra("fromWhere", RoundIconActivity.FROM_YAOWEI);
+                intent_yaowei.putExtra("fromWhere", Constant.FROM_YAOWEI);
                 startActivity(intent_yaowei);
                 break;
             case R.id.ll_danguchun:
                 Intent intent_danguchun = new Intent(getActivity(), RoundIconActivity.class);
-                intent_danguchun.putExtra("fromWhere", RoundIconActivity.FROM_DANGUCHUN);
+                intent_danguchun.putExtra("fromWhere", Constant.FROM_DANGUCHUN);
                 startActivity(intent_danguchun);
                 break;
             case R.id.ll_niaosuan:
                 Intent intent_niaosuan = new Intent(getActivity(), RoundIconActivity.class);
-                intent_niaosuan.putExtra("fromWhere", RoundIconActivity.FROM_NIAOSUAN);
+                intent_niaosuan.putExtra("fromWhere", Constant.FROM_NIAOSUAN);
                 startActivity(intent_niaosuan);
                 break;
             case R.id.ll_xindian:
                 Intent intent_xindian = new Intent(getActivity(), RoundIconActivity.class);
-                intent_xindian.putExtra("fromWhere", RoundIconActivity.FROM_XINDIAN);
+                intent_xindian.putExtra("fromWhere", Constant.FROM_XINDIAN);
                 startActivity(intent_xindian);
                 break;
             case R.id.physicall_location:

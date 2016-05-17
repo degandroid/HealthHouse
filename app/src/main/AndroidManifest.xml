@@ -59,7 +59,7 @@
         <activity
             android:name=".ui.RegistActivity"
             android:screenOrientation="portrait"></activity>
-        <!--每个圆形入口界面-->
+        <!--不带刻度尺的入口-->
         <activity
             android:name=".ui.RoundIconActivity"
             android:screenOrientation="portrait"></activity>
@@ -70,6 +70,14 @@
         <!--地图跳转页面-->
         <activity
             android:name=".ui.MapActivity"
+            android:screenOrientation="portrait"></activity>
+        <!--带刻度尺的入口-->
+        <activity
+            android:name=".ui.BPInputActivity"
+            android:screenOrientation="portrait"></activity>
+        <!---->
+        <activity
+            android:name=".ui.HistoryActivity"
             android:screenOrientation="portrait"></activity>
         <!--注册自定义广播-->
         <receiver android:name=".receive.MyReceiver">
