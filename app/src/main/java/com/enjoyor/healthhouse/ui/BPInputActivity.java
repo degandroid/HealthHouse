@@ -7,7 +7,9 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -31,6 +33,7 @@ public class BPInputActivity extends BaseActivity implements View.OnClickListene
     private Context context;
     private int CHOICE_DATE = 1;
     private int CHOICE_TIME = 2;
+    private int CHOICE_WHAT = 3;
     private int DEFAULT_VALUE = 0;
     private String str_year;
     private String str_mouth;
@@ -38,7 +41,18 @@ public class BPInputActivity extends BaseActivity implements View.OnClickListene
     private String str_hour;
     private PopupWindow popupWindow;
     private String TAG = this.getClass().getSimpleName();
+    private static final String[] m = {"空腹血糖", "早餐后血糖", "午餐前血糖", "午餐后血糖", "晚餐前血糖", "晚餐后血糖", "睡前血糖"};
+//    private String
+//    @Bind(R.id.tv_info)
+//    TextView tv_info;
+    private ArrayAdapter<String> whatAdapter;
+    @Bind(R.id.ll_first)
+    LinearLayout ll_first;
+    @Bind(R.id.ll_second)
+    LinearLayout ll_second;
 
+    @Bind(R.id.rl_choicewhat)
+    RelativeLayout rl_choicewhat;
     @Bind(R.id.tv_time)
     TextView tv_time;
     @Bind(R.id.tv_date)
@@ -86,9 +100,7 @@ public class BPInputActivity extends BaseActivity implements View.OnClickListene
             int fromWhere = getIntent().getIntExtra("fromWhere", Constant.FROM_XUEYA);
             initHead(fromWhere);
         }
-
         Log.d("tag", "create");
-        initView(0,100,10,20);
         initEvent();
     }
 
@@ -101,31 +113,41 @@ public class BPInputActivity extends BaseActivity implements View.OnClickListene
                 finish();
             }
         });
-        switch (fromWhere){
+        switch (fromWhere) {
             case Constant.FROM_XUEYA:
+                ll_second.setVisibility(View.VISIBLE);
                 navigation_name.setText("血压录入");
+                initFirstView(0, 100, 10, 70);
+                initSecondView(0, 200, 10, 120);
                 break;
             case Constant.FROM_XUETANG:
+                rl_choicewhat.setVisibility(View.VISIBLE);
+                initFirstView(0, 100, 10, 60);
                 navigation_name.setText("血糖录入");
+                selWhate();
                 break;
         }
         tv_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (fromWhere){
+                switch (fromWhere) {
                     case Constant.FROM_XUEYA:
-                        Intent intent_xueya = new Intent(context,HistoryActivity.class);
+                        Intent intent_xueya = new Intent(context, HistoryActivity.class);
                         intent_xueya.putExtra("fromWhere", Constant.FROM_XUEYA);
                         startActivity(intent_xueya);
                         break;
                     case Constant.FROM_XUETANG:
-                        Intent intent_xuetang = new Intent(context,HistoryActivity.class);
+                        Intent intent_xuetang = new Intent(context, HistoryActivity.class);
                         intent_xuetang.putExtra("fromWhere", Constant.FROM_XUETANG);
                         startActivity(intent_xuetang);
                         break;
                 }
             }
         });
+
+    }
+
+    private void selWhate() {
 
     }
 
@@ -139,14 +161,12 @@ public class BPInputActivity extends BaseActivity implements View.OnClickListene
     }
 
     /**
-     *
      * @param from//最小值
      * @param to//最大值
      * @param span//数字跨度
      * @param value//默认值
      */
-    private void initView(int from,int to,int span,int value) {
-
+    private void initFirstView(int from, int to, int span, int value) {
         List<String> list = new ArrayList<>();
         for (int i = from; i <= to; i += span) {
             list.add(i + "");
@@ -171,64 +191,39 @@ public class BPInputActivity extends BaseActivity implements View.OnClickListene
 
             @Override
             public void onScrollingFinished(RulerWheel wheel) {
+            }
+        });
+
+    }
+
+    private void initSecondView(int from, int to, int span, int value) {
+        List<String> list = new ArrayList<>();
+        for (int i = from; i <= to; i += span) {
+            list.add(i + "");
+            for (int j = 1; j < 10; j++) {
+                list.add((i + j) + "");
+            }
+        }
+        bpinput_bp_tv_low.setText(value + "");
+        bpinput_low.setData(list);
+        bpinput_low.setSelectedValue(value + "");
+        bpinput_low.setScrollingListener(new RulerWheel.OnWheelScrollListener<String>() {
+
+            @Override
+            public void onChanged(RulerWheel wheel, String oldValue, String newValue) {
+                bpinput_bp_tv_low.setText(newValue + "");
+            }
+
+            @Override
+            public void onScrollingStarted(RulerWheel wheel) {
+
+            }
+
+            @Override
+            public void onScrollingFinished(RulerWheel wheel) {
 
             }
         });
-//        bpinput_up = (RulerWheel) findViewById(R.id.bpinput_up);
-//        bpinput_low = (RulerWheel) findViewById(R.id.bpinput_low);
-//        bpinput_bp_tv = (TextView) findViewById(R.id.bpinput_bp_tv);
-//        bpinput_bp_tv_low = (TextView) findViewById(R.id.bpinput_bp_tv_low);
-//        bpinput_img_up_jian = (ImageView) findViewById(R.id.bpinput_img_up_jian);
-//        bpinput_img_up_jia = (ImageView) findViewById(R.id.bpinput_img_up_jia);
-//        bpinput_img_low_jian = (ImageView) findViewById(R.id.bpinput_img_low_jian);
-//        bpiinput_img_up_jia = (ImageView) findViewById(R.id.bpiinput_img_up_jia);
-//        List<String> list = new ArrayList<>();
-//        for (int i = 0; i <= 250; i += 10) {
-//            list.add(i + "");
-//            for (int j = 1; j < 10; j++) {
-//                list.add((i + j) + "");
-//            }
-//        }
-//        bpinput_bp_tv.setText(80 + "");
-//        bpinput_up.setData(list);
-//        bpinput_up.setSelectedValue(80 + "");
-//        bpinput_up.setScrollingListener(new RulerWheel.OnWheelScrollListener<String>() {
-//
-//            @Override
-//            public void onChanged(RulerWheel wheel, String oldValue, String newValue) {
-//                bpinput_bp_tv.setText(newValue + "");
-//            }
-//
-//            @Override
-//            public void onScrollingStarted(RulerWheel wheel) {
-//
-//            }
-//
-//            @Override
-//            public void onScrollingFinished(RulerWheel wheel) {
-//
-//            }
-//        });
-//        bpinput_bp_tv_low.setText(80 + "");
-//        bpinput_low.setData(list);
-//        bpinput_low.setSelectedValue(80 + "");
-//        bpinput_low.setScrollingListener(new RulerWheel.OnWheelScrollListener<String>() {
-//
-//            @Override
-//            public void onChanged(RulerWheel wheel, String oldValue, String newValue) {
-//                bpinput_bp_tv_low.setText(newValue + "");
-//            }
-//
-//            @Override
-//            public void onScrollingStarted(RulerWheel wheel) {
-//
-//            }
-//
-//            @Override
-//            public void onScrollingFinished(RulerWheel wheel) {
-//
-//            }
-//        });
     }
 
     @Override
@@ -257,6 +252,9 @@ public class BPInputActivity extends BaseActivity implements View.OnClickListene
             case R.id.rl_choicetime:
                 initPopuptWindow(v, CHOICE_TIME);
                 break;
+            case R.id.rl_choicewhat:
+                initPopuptWindow(v, CHOICE_WHAT);
+                break;
         }
     }
 
@@ -283,14 +281,45 @@ public class BPInputActivity extends BaseActivity implements View.OnClickListene
         } else if (CHOICE_TIME == which) {
             initWheelViewTime(popupWindow_view);
             popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
-        } else {
+        } else if(CHOICE_WHAT == which){
+            initWheelViewWhat(popupWindow_view);
+            popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+        }else {
             if (popupWindow != null) {
                 popupWindow.dismiss();
             }
         }
 
     }
+    private void initWheelViewWhat(View popupWindow_view) {
+        WheelView wv_day = (WheelView) popupWindow_view.findViewById(R.id.wv_day);
+        wv_day.setData(getStartData(4));
+        wv_day.setDefault(DEFAULT_VALUE);
+        wv_day.setOnSelectListener(new WheelView.OnSelectListener() {
+            @Override
+            public void endSelect(int id, String text) {
+                str_hour = text;
+            }
 
+            @Override
+            public void selecting(int id, String text) {
+            }
+        });
+        str_hour = wv_day.getSelectedText();
+        popupWindow_view.findViewById(R.id.bt_commit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv_time.setText(str_hour);
+                popupWindow.dismiss();
+            }
+        });
+        popupWindow_view.findViewById(R.id.bt_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+    }
     private void initWheelViewTime(View popupWindow_view) {
         WheelView wv_year = (WheelView) popupWindow_view.findViewById(R.id.wv_year);
         WheelView wv_mouth = (WheelView) popupWindow_view.findViewById(R.id.wv_mouth);
